@@ -16,7 +16,7 @@ terraform {
   required_version = ">= 1.1.0"
 
   cloud {
-    organization = "DevopsFiap"
+    organization = "fastfood"
 
     workspaces {
       name = "gh-actions"
@@ -25,6 +25,7 @@ terraform {
 }
 
 provider "aws" {
+  profile = "lab"
   region = "us-east-1"
 }
 
@@ -79,7 +80,7 @@ resource "aws_security_group" "web-sg" {
 }
 
 resource "aws_iam_user" "new_user" {
-  name = "User_Fiap" # Nome do novo usuário
+  name = "User_Fastfood" # Nome do novo usuário
 
   tags = {
     Name = "Example User"
