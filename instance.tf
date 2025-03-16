@@ -1,34 +1,3 @@
-# Copyright (c) HashiCorp, Inc.
-# SPDX-License-Identifier: MPL-2.0
-# Fiap MBA SCJ
-
-terraform {
-  required_providers {
-    aws = {
-      source  = "hashicorp/aws"
-      version = "4.52.0"
-    }
-    random = {
-      source  = "hashicorp/random"
-      version = "3.4.3"
-    }
-  }
-  required_version = ">= 1.1.0"
-
-  cloud {
-    organization = "fastfood"
-
-    workspaces {
-      name = "gh-actions"
-    }
-  }
-}
-
-provider "aws" {
-  profile = "lab"
-  region  = "us-east-1"
-}
-
 resource "random_pet" "sg" {}
 
 data "aws_ami" "ubuntu" {
@@ -79,30 +48,4 @@ resource "aws_security_group" "web-sg" {
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
-}
-
-resource "aws_iam_user" "new_user" {
-  name = "User_Fastfood" # Nome do novo usuário
-
-  tags = {
-    Name = "Example User"
-  }
-}
-
-resource "aws_iam_access_key" "new_user_access_key" {
-  user = aws_iam_user.new_user.name
-
-  # Garanta que as chaves de acesso sejam geradas apenas uma vez
-  lifecycle {
-    create_before_destroy = true
-  }
-}
-
-resource "aws_iam_user_policy_attachment" "new_user_policy_attachment" {
-  user       = aws_iam_user.new_user.name
-  policy_arn = "arn:aws:iam::aws:policy/AmazonS3FullAccess" # Política de exemplo (permissão de acesso total ao Amazon S3)
-}
-
-output "web-address" {
-  value = "${aws_instance.web.public_dns}:8080"
 }
