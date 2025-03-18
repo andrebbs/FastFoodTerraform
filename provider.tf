@@ -22,7 +22,7 @@ terraform {
 
 
 provider "aws" {
-  profile = "lab"
+  # profile = "lab"
   region  = "us-east-1"
 }
 
